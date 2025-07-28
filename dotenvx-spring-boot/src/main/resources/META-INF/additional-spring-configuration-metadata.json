@@ -1,0 +1,9 @@
+{
+  "properties": [
+    {
+      "name": "dotenv.public.key",
+      "type": "java.lang.String",
+      "description": "The public key used to encrypt the configuration properties files by Dotenvx."
+    }
+  ]
+}
