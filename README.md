@@ -35,3 +35,4 @@ and you will notice the decrypted value as hints in the configuration files.
 * [Dotenvx](https://dotenvx.com/): encrypts your .env files, limiting their attack vector while retaining their
   benefits.
 * [dotenvx-rs](https://github.com/linux-china/dotenvx-rs): Dotenvx Rust SDK/CLI
+* [dotenvx-java](https://github.com/linux-china/dotenvx-java): Dotenvx Java SDK
