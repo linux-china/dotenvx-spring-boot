@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=org.mvnsearch.dotenvx.spring.DotenvxSpringBootAutoConfiguration
+
+org.springframework.cloud.bootstrap.BootstrapConfiguration=org.mvnsearch.dotenvx.spring.DotenvxSpringCloudBootstrapConfiguration
