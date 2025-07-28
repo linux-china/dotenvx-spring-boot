@@ -4,6 +4,11 @@ package org.mvnsearch.dotenvx.spring.encryptor;
 import org.mvnsearch.dotenvx.spring.exception.DecryptionException;
 import org.mvnsearch.dotenvx.spring.exception.EncryptionException;
 
+/**
+ * dotenvx encryptor interface
+ *
+ * @author linux_china
+ */
 public interface DotenvxEncryptor {
 
     /**

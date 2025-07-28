@@ -15,7 +15,6 @@ import org.springframework.lang.NonNull;
  * with {@link org.mvnsearch.dotenvx.spring.wrapper.EncryptablePropertySourceWrapper} and defines a default {@link
  * EncryptablePropertyResolver} for decrypting properties
  * that can be configured through the same properties it wraps.</p>
- * <p>
  * <p>It takes the lowest precedence so it does not interfere with Spring Boot's own post-processors</p>
  *
  * @author Ulises Bocchio

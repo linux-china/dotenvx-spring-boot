@@ -4,7 +4,7 @@ import org.mvnsearch.dotenvx.spring.EncryptablePropertyDetector;
 import org.springframework.util.Assert;
 
 /**
- * Default property detector that detects encrypted property values with the format "encrypted:<value>".
+ * Default property detector that detects encrypted property values with the format "encrypted:base64_value".
  *
  * @author Ulises Bocchio
  * @version $Id: $Id
@@ -23,7 +23,6 @@ public class DefaultPropertyDetector implements EncryptablePropertyDetector {
      * <p>Constructor for DefaultPropertyDetector.</p>
      *
      * @param prefix a {@link java.lang.String} object
-     * @param suffix a {@link java.lang.String} object
      */
     public DefaultPropertyDetector(String prefix) {
         Assert.notNull(prefix, "Prefix can't be null");
