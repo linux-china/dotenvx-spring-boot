@@ -17,6 +17,17 @@ dotenv.public.key=02e8d78f0da7fc3b529d503edd933ed8cdc79dbe5fd5d9bd480f1e63a09905
 nick=encrypted:BFpnkHl81r6SFJlzpuCNFe70zOezu3vzkOygmRsAqy0H8zsklDBThtgVl6XDKpZOWq+qHimszEusev2xKXgG2ISdYDbcayNZB2Dd2q5qpo2RqUD0AT9XPrJqPT7DVFBw+hFCZwwqdg==
 ```
 
+Add the following dependency to your `pom.xml`:
+
+```xml
+
+<dependency>
+    <groupId>org.mvnsearch</groupId>
+    <artifactId>dotenvx-spring-boot-starter</artifactId>
+    <version>0.1.0</version>
+</dependency>
+```
+
 Start your Spring Boot application, and add `-Ddotenv.private.key=your_private_key` to the command line,
 and dotenvx start will automatically decrypt the `encrypted:` prefixed items in your properties or YAML files.
 If you are using [Spring Debugger](https://www.jetbrains.com/help/idea/spring-debugger.html),
