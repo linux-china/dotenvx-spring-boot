@@ -6,13 +6,20 @@ or `application.yml`.
 
 # Get Started
 
-Download dotenvx-cli from [dotenvx-rs](https://github.com/linux-china/dotenvx-rs),
-and execute `dotenvx init` to add `.env` and `.env.keys` files to your project.
+Download dotenvx-cli from [dotenvx-rs](https://github.com/linux-china/dotenvx-rs), 
+and follow the steps below to add encrypted items.
 
-Copy encrypted env variable from `.env` to `application.properties` or `application.yml`, example as follows:
+```bash
+$ cd project_dir
+$ dotenvx init
+$ ls .env*
+$ cd src/main/resources
+$ dotenvx -f application.properties nick Jackie
+```
+
+`application.properties` content example:
 
 ```properties
-# dotenvx public key
 dotenv.public.key=02e8d78f0da7fc3b529d503edd933ed8cdc79dbe5fd5d9bd480f1e63a09905f3b3
 nick=encrypted:BFpnkHl81r6SFJlzpuCNFe70zOezu3vzkOygmRsAqy0H8zsklDBThtgVl6XDKpZOWq+qHimszEusev2xKXgG2ISdYDbcayNZB2Dd2q5qpo2RqUD0AT9XPrJqPT7DVFBw+hFCZwwqdg==
 ```
