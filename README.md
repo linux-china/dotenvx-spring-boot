@@ -6,15 +6,13 @@ or `application.yml`.
 
 # Get Started
 
-Download dotenvx-cli from [dotenvx-rs](https://github.com/linux-china/dotenvx-rs), 
+Download the last version of dotenvx-cli from [dotenvx-rs](https://github.com/linux-china/dotenvx-rs),
 and follow the steps below to add encrypted items.
 
 ```bash
-$ cd project_dir
+$ cd spring-boot-project-dir
 $ dotenvx init
-$ ls .env*
-$ cd src/main/resources
-$ dotenvx -f application.properties nick Jackie
+$ dotenvx set --encrypt nick Jackie
 ```
 
 `application.properties` content example:
