@@ -78,6 +78,13 @@ DOTENV_PRIVATE_KEY=a7a0006f9136c246937a5ae60f11cfb71541df0dac389015e6916b3ebbe17
 DOTENV_PRIVATE_KEY_TEST=0c8eac932150e0d51cfc59ccbd2c0613298464b2922d900b96511cf7239b7aa5
 ```
 
+# How dotenvx-spring-boot reads private keys
+
+- Read `dotenv.private.key` from `ConfigurableEnvironment`
+- Read `DOTENV_PRIVATE_KEY` in your environment variables
+- Read private key from `$HOME/.dotenvx/.env.keys.key` file by the public key
+- Read private key from `.env.keys` or `$HOME/.env.keys` file
+
 # Credits
 
 * jasypt-spring-boot: https://github.com/ulisesbocchio/jasypt-spring-boot
