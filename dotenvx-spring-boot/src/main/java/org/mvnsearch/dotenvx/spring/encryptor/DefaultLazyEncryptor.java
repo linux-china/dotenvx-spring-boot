@@ -6,7 +6,9 @@ import org.mvnsearch.dotenvx.spring.util.Singleton;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.core.env.ConfigurableEnvironment;
 
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -21,7 +23,7 @@ import static org.mvnsearch.dotenvx.spring.util.Functional.tap;
  * @version $Id: $Id
  */
 public class DefaultLazyEncryptor implements DotenvxEncryptor {
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private static final ObjectMapper objectMapper = new ObjectMapper();
     private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(DefaultLazyEncryptor.class);
     private final Singleton<DotenvxEncryptor> singleton;
 
@@ -58,7 +60,7 @@ public class DefaultLazyEncryptor implements DotenvxEncryptor {
     }
 
     private DotenvxEncryptor createDefault(ConfigurableEnvironment env) {
-        final HashMap<String, String> globalKeyPairs = getProfileKeyPairs();
+        final HashMap<String, String> globalKeyStore = getGlobalKeyStore();
         String publicKeyHex = env.getProperty("dotenv.public.key", String.class);
         String privateKeyHex = env.getProperty("dotenv.private.key", String.class);
         if (privateKeyHex == null) {
@@ -66,7 +68,10 @@ public class DefaultLazyEncryptor implements DotenvxEncryptor {
         }
         // get private key from global key pairs if public key is provided
         if (publicKeyHex != null && privateKeyHex == null) {
-            privateKeyHex = globalKeyPairs.get(publicKeyHex);
+            privateKeyHex = globalKeyStore.get(publicKeyHex);
+        }
+        if (privateKeyHex == null) {
+            privateKeyHex = readPrivateKeyFromKeysFile("DOTENV_PRIVATE_KEY");
         }
         DotenvxEncryptorBuilder builder = new DotenvxEncryptorBuilder();
         builder.withPrimaryKeyPair(publicKeyHex, privateKeyHex);
@@ -79,7 +84,10 @@ public class DefaultLazyEncryptor implements DotenvxEncryptor {
             }
             // get private key from global key pairs if public key is provided
             if (profilePublicKey != null && profilePrivateKey == null) {
-                profilePrivateKey = globalKeyPairs.get(profilePublicKey);
+                profilePrivateKey = globalKeyStore.get(profilePublicKey);
+            }
+            if (profilePrivateKey == null) {
+                profilePrivateKey = readPrivateKeyFromKeysFile("DOTENV_PRIVATE_KEY_" + activeProfile.toUpperCase());
             }
             if (profilePublicKey != null && profilePrivateKey != null) {
                 builder.withProfileKeyPair(profilePublicKey, profilePrivateKey);
@@ -104,7 +112,7 @@ public class DefaultLazyEncryptor implements DotenvxEncryptor {
         return singleton.get().decrypt(encryptedMessage);
     }
 
-    private HashMap<String, String> getProfileKeyPairs() {
+    private HashMap<String, String> getGlobalKeyStore() {
         HashMap<String, String> globalKeyPairs = new HashMap<>();
         // read global key pairs from $HOME/.dotenvx/.env.keys.json
         final Path globalEnvKeysPath = Path.of(System.getProperty("user.home"), ".dotenvx", ".env.keys.json");
@@ -124,6 +132,33 @@ public class DefaultLazyEncryptor implements DotenvxEncryptor {
             }
         }
         return globalKeyPairs;
+    }
+
+    public String readPrivateKeyFromKeysFile(String privateKeyEnvName) {
+        String privateKey = null;
+        try {
+            if (Files.exists(Paths.get(".env.keys"))) { // Check in the current directory
+                for (String line : Files.readAllLines(Paths.get(".env.keys"))) {
+                    if (line.startsWith(privateKeyEnvName + "=")) {
+                        privateKey = line.substring((privateKeyEnvName + "=").length()).trim();
+                        break;
+                    }
+                }
+            } else if (Files.exists(Paths.get(System.getProperty("user.home"), ".env.keys"))) { // Check in the user's home directory
+                for (String line : Files.readAllLines(Paths.get(System.getProperty("user.home"), ".env.keys"))) {
+                    if (line.startsWith(privateKeyEnvName + "=")) {
+                        privateKey = line.substring((privateKeyEnvName + "=").length()).trim();
+                        break;
+                    }
+                }
+            }
+        } catch (Exception ignore) {
+
+        }
+        if (privateKey != null && (privateKey.startsWith("\"") || privateKey.startsWith("'"))) {
+            privateKey = privateKey.substring(1, privateKey.length() - 1);
+        }
+        return privateKey;
     }
 
 }
