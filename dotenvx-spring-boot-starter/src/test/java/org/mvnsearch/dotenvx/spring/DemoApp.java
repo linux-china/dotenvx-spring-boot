@@ -16,6 +16,7 @@ public class DemoApp {
     public ApplicationRunner applicationRunner(ApplicationContext appContext) {
         return args -> {
             System.out.println(appContext.getEnvironment().getProperty("nick"));
+            System.out.println(appContext.getEnvironment().getProperty("nick2"));
         };
     }
 }
