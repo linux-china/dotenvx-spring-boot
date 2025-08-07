@@ -86,6 +86,7 @@ public class DefaultLazyEncryptor implements DotenvxEncryptor {
             if (profilePublicKey != null && profilePrivateKey == null) {
                 profilePrivateKey = globalKeyStore.get(profilePublicKey);
             }
+            // read private key from .env.keys file if not found
             if (profilePrivateKey == null) {
                 profilePrivateKey = readPrivateKeyFromKeysFile("DOTENV_PRIVATE_KEY_" + activeProfile.toUpperCase());
             }
