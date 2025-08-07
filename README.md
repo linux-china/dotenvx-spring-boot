@@ -9,6 +9,8 @@ or `application.yml`.
 Download the last version of dotenvx-cli from [dotenvx-rs](https://github.com/linux-china/dotenvx-rs),
 and follow the steps below to add encrypted items.
 
+If you want to a real Dotenvx Spring Boot demo, please check [dotenvx-spring-boot-demo](https://github.com/linux-china/dotenvx-boot-demo).
+
 ```bash
 $ cd spring-boot-project-dir
 $ dotenvx init
