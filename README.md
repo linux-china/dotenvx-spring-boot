@@ -64,6 +64,20 @@ nick2=encrypted:BMVDgpuPNebbj1NIHxJocBLOxBBxZM3oDqBJ8laGYYso1slYeNJcZs/7Qy1NKDsO
 Start your Spring Boot application, and add `-Ddotenv.private.key.test=your_private_key` to the command line,
 or add `DOTENV_PRIVATE_KEY_TEST=your_private_key_test` to your environment variables.
 
+# .env.keys for application test
+
+```
+# ---
+# id: 019852dd-8798-7991-b1df-c2c8b743a0e1
+# name: spring-boot-test
+# group: demo
+# ---
+
+# Private decryption keys. DO NOT commit to source control
+DOTENV_PRIVATE_KEY=a7a0006f9136c246937a5ae60f11cfb71541df0dac389015e6916b3ebbe170cd
+DOTENV_PRIVATE_KEY_TEST=0c8eac932150e0d51cfc59ccbd2c0613298464b2922d900b96511cf7239b7aa5
+```
+
 # Credits
 
 * jasypt-spring-boot: https://github.com/ulisesbocchio/jasypt-spring-boot
