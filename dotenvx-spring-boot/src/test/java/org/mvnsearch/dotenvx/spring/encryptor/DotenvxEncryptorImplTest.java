@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileReader;
+import java.util.HashMap;
 import java.util.Properties;
 
 /**
@@ -21,7 +22,7 @@ public class DotenvxEncryptorImplTest {
         Properties properties = new Properties();
         properties.load(new FileReader(".env.keys"));
         String privateKeyHex = properties.getProperty("DOTENV_PRIVATE_KEY");
-        dotenvxEncryptor = new DotenvxEncryptorImpl(publicKeyHex, privateKeyHex);
+        dotenvxEncryptor = new DotenvxEncryptorImpl(publicKeyHex, privateKeyHex, new HashMap<>());
     }
 
     @Test
