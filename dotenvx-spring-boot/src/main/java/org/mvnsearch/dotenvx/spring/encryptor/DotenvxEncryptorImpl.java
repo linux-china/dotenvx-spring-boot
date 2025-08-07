@@ -5,6 +5,9 @@ import org.mvnsearch.dotenvx.spring.exception.DecryptionException;
 import org.mvnsearch.dotenvx.spring.exception.EncryptionException;
 import org.springframework.lang.Nullable;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * dotenvx encryptor implementation
  *
@@ -13,10 +16,12 @@ import org.springframework.lang.Nullable;
 public class DotenvxEncryptorImpl implements DotenvxEncryptor {
     private final String publicKeyHex;
     private final String privateKeyHex;
+    private HashMap<String, String> profileKeyPairs = new HashMap<>();
 
-    public DotenvxEncryptorImpl(@Nullable String publicKeyHex, @Nullable String privateKeyHex) {
+    public DotenvxEncryptorImpl(@Nullable String publicKeyHex, @Nullable String privateKeyHex, HashMap<String, String> profileKeyPairs) {
         this.publicKeyHex = publicKeyHex;
         this.privateKeyHex = privateKeyHex;
+        this.profileKeyPairs = profileKeyPairs;
     }
 
     /**
@@ -49,8 +54,18 @@ public class DotenvxEncryptorImpl implements DotenvxEncryptor {
                 base64EncodedText = base64EncodedText.substring("encrypted:".length());
             }
             return Ecies.decrypt(privateKeyHex, base64EncodedText);
-        } catch (Exception e) {
-            throw new DecryptionException("Failed to decrypt text: " + base64EncodedText, e);
+        } catch (Exception ignore) {
         }
+        for (Map.Entry<String, String> keyPair : profileKeyPairs.entrySet()) {
+            try {
+                String privateKey = keyPair.getValue();
+                if (base64EncodedText.startsWith("encrypted:")) {
+                    base64EncodedText = base64EncodedText.substring("encrypted:".length());
+                }
+                return Ecies.decrypt(privateKey, base64EncodedText);
+            } catch (Exception ignore) {
+            }
+        }
+        throw new DecryptionException("Failed to decrypt text: " + base64EncodedText);
     }
 }

@@ -4,6 +4,8 @@ import org.mvnsearch.dotenvx.spring.encryptor.DotenvxEncryptor;
 import org.mvnsearch.dotenvx.spring.encryptor.DotenvxEncryptorImpl;
 import org.springframework.lang.Nullable;
 
+import java.util.HashMap;
+
 /**
  * <p>DotenvxEncryptorBuilder class.</p>
  *
@@ -12,8 +14,11 @@ import org.springframework.lang.Nullable;
  */
 public class DotenvxEncryptorBuilder {
 
+    @Nullable
     private String publicKeyHex;
+    @Nullable
     private String privateKeyHex;
+    private HashMap<String, String> profileKeyPairs = new HashMap<>();
 
     /**
      * <p>Constructor for DotenvxEncryptorBuilder.</p>
@@ -26,14 +31,18 @@ public class DotenvxEncryptorBuilder {
         this.privateKeyHex = privateKeyHex;
     }
 
+    public DotenvxEncryptorBuilder() {
+    }
+
     /**
      * set public key hex
      *
      * @param publicKeyHex public key hex
      * @return this builder
      */
-    public DotenvxEncryptorBuilder setPublicKeyHex(@Nullable String publicKeyHex) {
+    public DotenvxEncryptorBuilder withPrimaryKeyPair(@Nullable String publicKeyHex, @Nullable String privateKeyHex) {
         this.publicKeyHex = publicKeyHex;
+        this.privateKeyHex = privateKeyHex;
         return this;
     }
 
@@ -43,8 +52,10 @@ public class DotenvxEncryptorBuilder {
      * @param privateKeyHex private key hex
      * @return this builder
      */
-    public DotenvxEncryptorBuilder setPrivateKeyHex(@Nullable String privateKeyHex) {
-        this.privateKeyHex = privateKeyHex;
+    public DotenvxEncryptorBuilder withProfileKeyPair(@Nullable String publicKeyHex, @Nullable String privateKeyHex) {
+        if (publicKeyHex != null && privateKeyHex != null) {
+            this.profileKeyPairs.put(publicKeyHex, privateKeyHex);
+        }
         return this;
     }
 
@@ -54,6 +65,6 @@ public class DotenvxEncryptorBuilder {
      * @return a {@link DotenvxEncryptor} object
      */
     public DotenvxEncryptor build() {
-        return new DotenvxEncryptorImpl(publicKeyHex, privateKeyHex);
+        return new DotenvxEncryptorImpl(publicKeyHex, privateKeyHex, profileKeyPairs);
     }
 }
