@@ -18,8 +18,13 @@ $ dotenvx set --encrypt nick Jackie
 `application.properties` content example:
 
 ```properties
-dotenv.public.key=02e8d78f0da7fc3b529d503edd933ed8cdc79dbe5fd5d9bd480f1e63a09905f3b3
-nick=encrypted:BFpnkHl81r6SFJlzpuCNFe70zOezu3vzkOygmRsAqy0H8zsklDBThtgVl6XDKpZOWq+qHimszEusev2xKXgG2ISdYDbcayNZB2Dd2q5qpo2RqUD0AT9XPrJqPT7DVFBw+hFCZwwqdg==
+# ---
+# uuid: 019852dd-8798-7991-b1df-c2b388de0fc4
+# sign: 6xEkGwGLig9DuO+iO5jm4RTBG+oQjKZt0XHvVQ28VZIDM8PFaaHMmG+S/xfezoCUJuMvqlFFNOokCg4WIkBWsg==
+# ---
+dotenv.public.key=02324d763b27358d4229651fd9d0822fb263b07bcc3422f5bd9968cafc194011ff
+### spring configuration
+nick=encrypted:BDFsggcvh9IiNUIZ66YrEI10sLoUJS6WW+UiUxqfAGyHo6cfg9lQ1DhOy9z18F50aRicFHZ7dXH7CagfhonUnZA5W+l1xldVBzv4b8OJN05qih2PHIcY01spqx6RYrgg76pUsuv2eA==
 ```
 
 Add the following dependency to your `pom.xml`:
@@ -34,13 +39,30 @@ Add the following dependency to your `pom.xml`:
 ```
 
 Start your Spring Boot application, and add `-Ddotenv.private.key=your_private_key` to the command line,
+or add `DOTENV_PRIVATE_KEY=your_private_key` to your environment variables.
 and dotenvx start will automatically decrypt the `encrypted:` prefixed items in your properties or YAML files.
 If you are using [Spring Debugger](https://www.jetbrains.com/help/idea/spring-debugger.html),
 and you will notice the decrypted value as hints in the configuration files.
 
-**Note**: The `dotenv.public.key` is from `.env.keys` file.
+**Note**: The private keys for `application.properties` are from `$HOME/.dotenvx/.env.keys.key`.
 
-**Important**: Make sure to keep your `.env.keys` secure and do not commit it to version control.
+# Profile support
+
+Please add `dotenv.public.key.profile-name` in `application-profile.properties`.
+
+```
+# ---
+# id: 019881d9-39b0-7ec1-a623-5829d8480774
+# name: project_ame
+# group: group_name
+# ---
+dotenv.public.key.test=03f23142c47684e0eecda5bad9c2a6a32e461e55d5db1359948aee9e169d5aed4d
+### spring boot configuration
+nick2=encrypted:BMVDgpuPNebbj1NIHxJocBLOxBBxZM3oDqBJ8laGYYso1slYeNJcZs/7Qy1NKDsO+SPmnUd5UDV/LfEEctiyr2I81IGQfuuE8iZwVgqGq12KCa7CouLWH6cm/NRyzSr9PuqVtGdmfAk=
+```
+
+Start your Spring Boot application, and add `-Ddotenv.private.key.test=your_private_key` to the command line,
+or add `DOTENV_PRIVATE_KEY_TEST=your_private_key_test` to your environment variables.
 
 # Credits
 
