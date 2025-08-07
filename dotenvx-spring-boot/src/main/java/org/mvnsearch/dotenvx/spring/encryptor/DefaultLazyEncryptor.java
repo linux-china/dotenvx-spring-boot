@@ -1,10 +1,14 @@
 package org.mvnsearch.dotenvx.spring.encryptor;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.mvnsearch.dotenvx.spring.configuration.DotenvxEncryptorBuilder;
 import org.mvnsearch.dotenvx.spring.util.Singleton;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.core.env.ConfigurableEnvironment;
 
+import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import static org.mvnsearch.dotenvx.spring.util.Functional.tap;
@@ -17,6 +21,7 @@ import static org.mvnsearch.dotenvx.spring.util.Functional.tap;
  * @version $Id: $Id
  */
 public class DefaultLazyEncryptor implements DotenvxEncryptor {
+    private ObjectMapper objectMapper = new ObjectMapper();
     private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(DefaultLazyEncryptor.class);
     private final Singleton<DotenvxEncryptor> singleton;
 
@@ -53,12 +58,34 @@ public class DefaultLazyEncryptor implements DotenvxEncryptor {
     }
 
     private DotenvxEncryptor createDefault(ConfigurableEnvironment env) {
+        final HashMap<String, String> globalKeyPairs = getProfileKeyPairs();
         String publicKeyHex = env.getProperty("dotenv.public.key", String.class);
         String privateKeyHex = env.getProperty("dotenv.private.key", String.class);
         if (privateKeyHex == null) {
             privateKeyHex = System.getenv("DOTENV_PRIVATE_KEY");
         }
-        return new DotenvxEncryptorBuilder(publicKeyHex, privateKeyHex).build();
+        // get private key from global key pairs if public key is provided
+        if (publicKeyHex != null && privateKeyHex == null) {
+            privateKeyHex = globalKeyPairs.get(publicKeyHex);
+        }
+        DotenvxEncryptorBuilder builder = new DotenvxEncryptorBuilder();
+        builder.withPrimaryKeyPair(publicKeyHex, privateKeyHex);
+        // get private keys for profile: public -> private
+        for (String activeProfile : env.getActiveProfiles()) {
+            String profilePublicKey = env.getProperty("dotenv.public.key." + activeProfile, String.class);
+            String profilePrivateKey = env.getProperty("dotenv.private.key." + activeProfile, String.class);
+            if (privateKeyHex == null) {
+                privateKeyHex = System.getenv("DOTENV_PRIVATE_KEY_" + activeProfile.toUpperCase());
+            }
+            // get private key from global key pairs if public key is provided
+            if (profilePublicKey != null && profilePrivateKey == null) {
+                profilePrivateKey = globalKeyPairs.get(profilePublicKey);
+            }
+            if (profilePublicKey != null && profilePrivateKey != null) {
+                builder.withProfileKeyPair(profilePublicKey, profilePrivateKey);
+            }
+        }
+        return builder.build();
     }
 
     /**
@@ -75,6 +102,28 @@ public class DefaultLazyEncryptor implements DotenvxEncryptor {
     @Override
     public String decrypt(final String encryptedMessage) {
         return singleton.get().decrypt(encryptedMessage);
+    }
+
+    private HashMap<String, String> getProfileKeyPairs() {
+        HashMap<String, String> globalKeyPairs = new HashMap<>();
+        // read global key pairs from $HOME/.dotenvx/.env.keys.json
+        final Path globalEnvKeysPath = Path.of(System.getProperty("user.home"), ".dotenvx", ".env.keys.json");
+        if (globalEnvKeysPath.toFile().exists()) {
+            try {
+                final Map<String, Object> store = objectMapper.readValue(globalEnvKeysPath.toFile(), Map.class);
+                if (store != null) {
+                    for (String publicKey : store.keySet()) {
+                        Object pair = store.get(publicKey);
+                        if (pair instanceof Map<?, ?>) {
+                            String privateKye = ((Map<?, ?>) pair).get("private_key").toString();
+                            globalKeyPairs.put(publicKey, privateKye);
+                        }
+                    }
+                }
+            } catch (Exception ignore) {
+            }
+        }
+        return globalKeyPairs;
     }
 
 }
