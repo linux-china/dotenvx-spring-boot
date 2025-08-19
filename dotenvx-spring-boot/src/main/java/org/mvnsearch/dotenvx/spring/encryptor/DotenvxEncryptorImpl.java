@@ -16,7 +16,7 @@ import java.util.Map;
 public class DotenvxEncryptorImpl implements DotenvxEncryptor {
     private final String publicKeyHex;
     private final String privateKeyHex;
-    private HashMap<String, String> profileKeyPairs = new HashMap<>();
+    private final HashMap<String, String> profileKeyPairs;
 
     public DotenvxEncryptorImpl(@Nullable String publicKeyHex, @Nullable String privateKeyHex, HashMap<String, String> profileKeyPairs) {
         this.publicKeyHex = publicKeyHex;
