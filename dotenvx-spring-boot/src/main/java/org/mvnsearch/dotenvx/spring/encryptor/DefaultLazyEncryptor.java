@@ -119,10 +119,13 @@ public class DefaultLazyEncryptor implements DotenvxEncryptor {
         final Path globalEnvKeysPath = Path.of(System.getProperty("user.home"), ".dotenvx", ".env.keys.json");
         if (globalEnvKeysPath.toFile().exists()) {
             try {
-                final Map<String, Object> store = objectMapper.readValue(globalEnvKeysPath.toFile(), Map.class);
-                if (store != null) {
-                    for (String publicKey : store.keySet()) {
-                        Object pair = store.get(publicKey);
+                Map<String, Object> keyStore = objectMapper.readValue(globalEnvKeysPath.toFile(), Map.class);
+                if (!keyStore.isEmpty()) {
+                    if (keyStore.containsKey("version") && keyStore.containsKey("keys")) {
+                        keyStore = (Map<String, Object>) keyStore.get("keys");
+                    }
+                    for (String publicKey : keyStore.keySet()) {
+                        Object pair = keyStore.get(publicKey);
                         if (pair instanceof Map<?, ?>) {
                             String privateKye = ((Map<?, ?>) pair).get("private_key").toString();
                             globalKeyPairs.put(publicKey, privateKye);
