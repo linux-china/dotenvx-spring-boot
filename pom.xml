@@ -6,7 +6,7 @@
     <groupId>org.mvnsearch</groupId>
     <artifactId>dotenvx-spring-boot-parent</artifactId>
     <packaging>pom</packaging>
-    <version>0.1.1</version>
+    <version>0.1.2</version>
 
     <name>Dotenvx Spring Boot Parent</name>
     <description>Spring Boot with Dotenvx support to decrypt `encrypted:` items from Spring Boot Configuration files.
