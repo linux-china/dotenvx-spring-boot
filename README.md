@@ -5,14 +5,16 @@ dotenvx-spring-boot
 or `application.yml`.
 
 # Get Started
-                                   
-If you use IntelliJ IDEA, please download [Dotenvx JetBrains Plugin](https://plugins.jetbrains.com/plugin/28148-dotenvx) first, 
+
+If you use IntelliJ IDEA, please download [Dotenvx JetBrains Plugin](https://plugins.jetbrains.com/plugin/28148-dotenvx)
+first,
 and all operations could be finished in IDE.
 
 Or download the last version of dotenvx-cli from [dotenvx-rs](https://github.com/linux-china/dotenvx-rs),
 and follow the steps below to add encrypted items.
 
-If you want to a real Dotenvx Spring Boot demo, please check [dotenvx-spring-boot-demo](https://github.com/linux-china/dotenvx-boot-demo).
+If you want to a real Dotenvx Spring Boot demo, please
+check [dotenvx-spring-boot-demo](https://github.com/linux-china/dotenvx-boot-demo).
 
 ```bash
 $ cd spring-boot-project-dir
@@ -96,6 +98,8 @@ DOTENV_PRIVATE_KEY_TEST=0c8eac932150e0d51cfc59ccbd2c0613298464b2922d900b96511cf7
 
 # References
 
+* [Dotenvx JetBrains Plugin](https://plugins.jetbrains.com/plugin/28148-dotenvx/): Dotenvx JetBrains IDE plugin with
+  Spring Boot support
 * [Dotenvx](https://dotenvx.com/): encrypts your .env files, limiting their attack vector while retaining their
   benefits.
 * [dotenvx-rs](https://github.com/linux-china/dotenvx-rs): Dotenvx Rust SDK/CLI
