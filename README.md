@@ -5,8 +5,11 @@ dotenvx-spring-boot
 or `application.yml`.
 
 # Get Started
+                                   
+If you use IntelliJ IDEA, please download [Dotenvx JetBrains Plugin](https://plugins.jetbrains.com/plugin/28148-dotenvx) first, 
+and all operations could be finished in IDE.
 
-Download the last version of dotenvx-cli from [dotenvx-rs](https://github.com/linux-china/dotenvx-rs),
+Or download the last version of dotenvx-cli from [dotenvx-rs](https://github.com/linux-china/dotenvx-rs),
 and follow the steps below to add encrypted items.
 
 If you want to a real Dotenvx Spring Boot demo, please check [dotenvx-spring-boot-demo](https://github.com/linux-china/dotenvx-boot-demo).
@@ -46,7 +49,7 @@ and dotenvx start will automatically decrypt the `encrypted:` prefixed items in 
 If you are using [Spring Debugger](https://www.jetbrains.com/help/idea/spring-debugger.html),
 and you will notice the decrypted value as hints in the configuration files.
 
-**Note**: The private keys for `application.properties` are from `$HOME/.dotenvx/.env.keys.key`.
+**Note**: The private key for `application.properties` is from `$HOME/.dotenvx/.env.keys.json`.
 
 # Profile support
 
@@ -84,7 +87,7 @@ DOTENV_PRIVATE_KEY_TEST=0c8eac932150e0d51cfc59ccbd2c0613298464b2922d900b96511cf7
 
 - Read `dotenv.private.key` from `ConfigurableEnvironment`
 - Read `DOTENV_PRIVATE_KEY` in your environment variables
-- Read private key from `$HOME/.dotenvx/.env.keys.key` file by the public key
+- Read private key from `$HOME/.dotenvx/.env.keys.json` file by the public key
 - Read private key from `.env.keys` or `$HOME/.env.keys` file
 
 # Credits
