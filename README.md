@@ -7,8 +7,7 @@ or `application.yml`.
 # Get Started
 
 If you use IntelliJ IDEA, please download [Dotenvx JetBrains Plugin](https://plugins.jetbrains.com/plugin/28148-dotenvx)
-first,
-and all operations could be finished in IDE.
+first, and all operations could be finished in IDE.
 
 Or download the last version of dotenvx-cli from [dotenvx-rs](https://github.com/linux-china/dotenvx-rs),
 and follow the steps below to add encrypted items.
