@@ -51,6 +51,8 @@ If you are using [Spring Debugger](https://www.jetbrains.com/help/idea/spring-de
 and you will notice the decrypted value as hints in the configuration files.
 
 **Note**: The private key for `application.properties` is from `$HOME/.dotenvx/.env.keys.json`.
+**Attention**: dotenvx-spring-boot-starter uses Bouncy Castle `bcprov-jdk18on`(JDK 1.8+).
+If `bcprov-jdk15on` is in project's dependencies, please pay attention to confliction.
 
 # Profile support
 
