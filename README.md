@@ -102,7 +102,7 @@ If you want to use Dotenvx to protect some fields with JSON output, you can use 
 @Configuration
 public class DotenvxJacksonConfig {
     @Bean
-    public SimpleModule dotenvxJacksonModule(@Value("${dotenv.public.key}") String publicKey, @Value("${dotenvx.private.key}") String privateKey) {
+    public SimpleModule dotenvxJacksonModule(@Value("${dotenvx.public.key}") String publicKey, @Value("${dotenvx.private.key}") String privateKey) {
         SimpleModule simpleModule = new SimpleModule();
         simpleModule.addSerializer(new DotenvxGlobalJsonSerializer(publicKey));
         simpleModule.addDeserializer(String.class, new DotenvxGlobalJsonDeserializer(privateKey));
@@ -113,6 +113,8 @@ public class DotenvxJacksonConfig {
 
 For encryption, make sure the field value with `private:` prefix.
 For decryption, make sure the field value with `encrypted:` prefix.
+
+**Tips**: please use `dotenvx init --stdout` to generate a new key pair for this case. Don't use app config key pair.
 
 # Credits
 
