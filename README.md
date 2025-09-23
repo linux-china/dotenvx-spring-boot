@@ -93,6 +93,27 @@ DOTENV_PRIVATE_KEY_TEST=0c8eac932150e0d51cfc59ccbd2c0613298464b2922d900b96511cf7
 - Read private key from `$HOME/.dotenvx/.env.keys.json` file by the public key
 - Read private key from `.env.keys` or `$HOME/.env.keys` file
 
+# Jackson Integration
+
+If you want to use Dotenvx to protect some fields with JSON output, you can use the following code:
+
+```java
+
+@Configuration
+public class DotenvxJacksonConfig {
+    @Bean
+    public SimpleModule dotenvxJacksonModule(@Value("${dotenv.public.key}") String publicKey, @Value("${dotenvx.private.key}") String privateKey) {
+        SimpleModule simpleModule = new SimpleModule();
+        simpleModule.addSerializer(new DotenvxGlobalJsonSerializer(publicKey));
+        simpleModule.addDeserializer(String.class, new DotenvxGlobalJsonDeserializer(privateKey));
+        return simpleModule;
+    }
+}
+```
+
+For encryption, make sure the field value with `private:` prefix.
+For decryption, make sure the field value with `encrypted:` prefix.
+
 # Credits
 
 * jasypt-spring-boot: https://github.com/ulisesbocchio/jasypt-spring-boot
