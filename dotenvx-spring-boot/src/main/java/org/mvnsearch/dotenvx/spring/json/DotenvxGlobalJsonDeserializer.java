@@ -18,7 +18,7 @@ import java.io.IOException;
 public class DotenvxGlobalJsonDeserializer extends StdDeserializer<String> {
     private final String privateKey;
 
-    protected DotenvxGlobalJsonDeserializer(String privateKey) {
+    public DotenvxGlobalJsonDeserializer(String privateKey) {
         super(String.class);
         this.privateKey = privateKey;
     }

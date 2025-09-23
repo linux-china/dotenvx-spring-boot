@@ -16,7 +16,7 @@ public class DotenvxGlobalJsonSerializer extends StdSerializer<String> {
     private final String publicKey;
     public static String prefix = "private:";
 
-    protected DotenvxGlobalJsonSerializer(String publicKey) {
+    public DotenvxGlobalJsonSerializer(String publicKey) {
         super(String.class);
         this.publicKey = publicKey;
     }
