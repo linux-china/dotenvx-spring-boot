@@ -111,8 +111,8 @@ public class DotenvxJacksonConfig {
 }
 ```
 
-For encryption, make sure the field value with `private:` prefix.
-For decryption, make sure the field value with `encrypted:` prefix.
+For encryption, make sure the field's value with `private:` prefix.
+For decryption, make sure the field's value with `encrypted:` prefix.
 
 **Tips**: please use `dotenvx init --stdout` to generate a new key pair for this case. Don't use app config key pair.
 
