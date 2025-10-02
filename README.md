@@ -116,6 +116,30 @@ For decryption, make sure the field's value with `encrypted:` prefix.
 
 **Tips**: please use `dotenvx init --stdout` to generate a new key pair for this case. Don't use app config key pair.
 
+# JWT support
+
+Most web applications use JWT to authorize user, and Dotenvx Spring Boot
+uses [Nimbus JOSE + JWT](https://connect2id.com/products/nimbus-jose-jwt) to generate and verify JWT token.
+
+```java
+    @Test
+    public void testGenerateJwt() throws Exception {
+        final ECKeyPair keyPair = Ecies.generateEcKeyPair();
+        String subject = "example-user";
+        JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
+                .subject(subject)
+                .issuer("dotenvx")
+                .issueTime(new Date())
+                .expirationTime(new Date(System.currentTimeMillis() + 3600000)) // 1 hour expiration
+                .build();
+        final BCECPublicKey publicKey = keyPair.getPublic();
+        final BCECPrivateKey privateKey = keyPair.getPrivate();
+        final String jwtToken = Secp256k1JwtService.createJwtToken(privateKey, claimsSet);
+        final JWTClaimsSet jwtClaimsSet = Secp256k1JwtService.verifyJwt(jwtToken, publicKey);
+        assertThat(jwtClaimsSet.getSubject()).isEqualTo(subject);
+    }
+```
+
 # Credits
 
 * jasypt-spring-boot: https://github.com/ulisesbocchio/jasypt-spring-boot
