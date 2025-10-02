@@ -17,6 +17,9 @@ import java.security.interfaces.ECPrivateKey;
 import java.security.interfaces.ECPublicKey;
 
 public class Secp256k1KeyParser {
+    static {
+        Security.addProvider(new BouncyCastleProvider());
+    }
 
     /**
      * parse secp256k1 public key
@@ -26,7 +29,6 @@ public class Secp256k1KeyParser {
      * @throws Exception exception
      */
     public static ECPublicKey parseSecp256k1CompressedPublicKey(byte[] compressedPublicKeyBytes) throws Exception {
-        Security.addProvider(new BouncyCastleProvider());
         // 1. Retrieve the Curve Parameters
         X9ECParameters x9ECParameters = SECNamedCurves.getByName("secp256k1");
         ECCurve curve = x9ECParameters.getCurve();
@@ -52,8 +54,6 @@ public class Secp256k1KeyParser {
      * @throws Exception exception
      */
     public static ECPrivateKey parseSecp256k1PrivateKey(byte[] privateKeyBytes) throws Exception {
-        // Add Bouncy Castle as a security provider
-        Security.addProvider(new BouncyCastleProvider());
         // Get the ECParameterSpec for secp256k1
         ECParameterSpec ecSpec = ECNamedCurveTable.getParameterSpec("secp256k1");
         // Convert the private key bytes to a BigInteger
