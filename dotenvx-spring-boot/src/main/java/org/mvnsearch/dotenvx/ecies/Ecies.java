@@ -9,6 +9,8 @@ import org.bouncycastle.crypto.modes.GCMModeCipher;
 import org.bouncycastle.crypto.params.HKDFParameters;
 import org.bouncycastle.crypto.params.KeyParameter;
 import org.bouncycastle.crypto.params.ParametersWithIV;
+import org.bouncycastle.jcajce.provider.asymmetric.ec.BCECPrivateKey;
+import org.bouncycastle.jcajce.provider.asymmetric.ec.BCECPublicKey;
 import org.bouncycastle.jce.ECNamedCurveTable;
 import org.bouncycastle.jce.interfaces.ECPrivateKey;
 import org.bouncycastle.jce.interfaces.ECPublicKey;
@@ -48,7 +50,7 @@ public class Ecies {
         KeyPairGenerator g = KeyPairGenerator.getInstance("EC", BOUNCY_CASTLE_PROVIDER);
         g.initialize(ecSpec, SECURE_RANDOM);
         KeyPair keyPair = g.generateKeyPair();
-        return new ECKeyPair((ECPublicKey) keyPair.getPublic(), (ECPrivateKey) keyPair.getPrivate());
+        return new ECKeyPair((BCECPublicKey) keyPair.getPublic(), (BCECPrivateKey) keyPair.getPrivate());
     }
 
     /**
