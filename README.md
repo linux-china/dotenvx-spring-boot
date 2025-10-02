@@ -118,7 +118,7 @@ For decryption, make sure the field's value with `encrypted:` prefix.
 
 # JWT support
 
-Most web applications use JWT to authorize user, and Dotenvx Spring Boot
+Most web applications use JWT to authorize a user, and Dotenvx Spring Boot
 uses [Nimbus JOSE + JWT](https://connect2id.com/products/nimbus-jose-jwt) to generate and verify JWT token.
 
 ```java
