@@ -23,16 +23,16 @@ public final class ECKeyPair {
         return privateKey;
     }
 
-    public byte[] getPublicBinary(boolean encoded) {
-        return publicKey.getQ().getEncoded(encoded);
+    public byte[] getPublicBinary(boolean compressed) {
+        return publicKey.getQ().getEncoded(compressed);
     }
 
     public byte[] getPrivateBinary() {
         return privateKey.getD().toByteArray();
     }
 
-    public String getPublicHex(boolean encoded) {
-        return Hex.toHexString(getPublicBinary(encoded));
+    public String getPublicHex(boolean compressed) {
+        return Hex.toHexString(getPublicBinary(compressed));
     }
 
     public String getPrivateHex() {
