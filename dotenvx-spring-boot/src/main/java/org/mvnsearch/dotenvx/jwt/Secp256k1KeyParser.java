@@ -1,6 +1,5 @@
 package org.mvnsearch.dotenvx.jwt;
 
-import com.nimbusds.jose.crypto.bc.BouncyCastleProviderSingleton;
 import org.bouncycastle.asn1.sec.SECNamedCurves;
 import org.bouncycastle.asn1.x9.X9ECParameters;
 import org.bouncycastle.jce.ECNamedCurveTable;
@@ -20,7 +19,7 @@ import java.security.interfaces.ECPublicKey;
 public class Secp256k1KeyParser {
     static {
         if (Security.getProvider(BouncyCastleProvider.PROVIDER_NAME) == null) {
-            Security.addProvider(BouncyCastleProviderSingleton.getInstance());
+            Security.addProvider(new BouncyCastleProvider());
         }
     }
 
@@ -45,7 +44,7 @@ public class Secp256k1KeyParser {
                 x9ECParameters.getH()
         );
         ECPublicKeySpec pubSpec = new ECPublicKeySpec(ecPoint, ecParameterSpec);
-        KeyFactory keyFactory = KeyFactory.getInstance("EC", "BC");
+        KeyFactory keyFactory = KeyFactory.getInstance("EC", BouncyCastleProvider.PROVIDER_NAME);
         return (ECPublicKey) keyFactory.generatePublic(pubSpec);
     }
 
@@ -64,7 +63,7 @@ public class Secp256k1KeyParser {
         // Create an ECPrivateKeySpec
         ECPrivateKeySpec privateKeySpec = new ECPrivateKeySpec(privateKeyValue, ecSpec);
         // Get a KeyFactory for EC
-        KeyFactory keyFactory = KeyFactory.getInstance("EC", "BC");
+        KeyFactory keyFactory = KeyFactory.getInstance("EC", BouncyCastleProvider.PROVIDER_NAME);
         // Generate the PrivateKey object
         return (ECPrivateKey) keyFactory.generatePrivate(privateKeySpec);
     }
