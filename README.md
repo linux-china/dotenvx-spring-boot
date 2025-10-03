@@ -122,23 +122,33 @@ Most web applications use JWT to authorize a user, and Dotenvx Spring Boot
 uses [Nimbus JOSE + JWT](https://connect2id.com/products/nimbus-jose-jwt) to generate and verify JWT token.
 
 ```java
-    @Test
-    public void testGenerateJwt() throws Exception {
-        final ECKeyPair keyPair = Ecies.generateEcKeyPair();
-        String subject = "example-user";
-        JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
-                .subject(subject)
-                .issuer("dotenvx")
-                .issueTime(new Date())
-                .expirationTime(new Date(System.currentTimeMillis() + 3600000)) // 1 hour expiration
-                .build();
-        final BCECPublicKey publicKey = keyPair.getPublic();
-        final BCECPrivateKey privateKey = keyPair.getPrivate();
-        final String jwtToken = Secp256k1JwtService.createJwtToken(privateKey, claimsSet);
-        final JWTClaimsSet jwtClaimsSet = Secp256k1JwtService.verifyJwt(jwtToken, publicKey);
-        assertThat(jwtClaimsSet.getSubject()).isEqualTo(subject);
-    }
+
+@Test
+public void testGenerateJwt() throws Exception {
+    final ECKeyPair keyPair = Ecies.generateEcKeyPair();
+    String subject = "example-user";
+    JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
+            .subject(subject)
+            .issuer("dotenvx")
+            .issueTime(new Date())
+            .expirationTime(new Date(System.currentTimeMillis() + 3600000)) // 1 hour expiration
+            .build();
+    final BCECPublicKey publicKey = keyPair.getPublic();
+    final BCECPrivateKey privateKey = keyPair.getPrivate();
+    final String jwtToken = Secp256k1JwtService.createJwtToken(privateKey, claimsSet);
+    final JWTClaimsSet jwtClaimsSet = Secp256k1JwtService.verifyJwt(jwtToken, publicKey);
+    assertThat(jwtClaimsSet.getSubject()).isEqualTo(subject);
+}
 ```
+
+For more, please refer to the following Java classes:
+
+- [Ecies](dotenvx-spring-boot/src/main/java/org/mvnsearch/dotenvx/ecies/Ecies.java): generate a key pair
+- [Secp256k1KeyParser](dotenvx-spring-boot/src/main/java/org/mvnsearch/dotenvx/jwt/Secp256k1KeyParser.java):
+  public/private key parser
+- [Secp256k1JwtService](dotenvx-spring-boot/src/main/java/org/mvnsearch/dotenvx/jwt/Secp256k1JwtService.java): JWT
+  Service
+- [Secp256k1Signer](dotenvx-spring-boot/src/main/java/org/mvnsearch/dotenvx/jwt/Secp256k1Signer.java): signature service
 
 # Credits
 
