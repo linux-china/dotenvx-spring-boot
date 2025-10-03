@@ -1,5 +1,6 @@
 package org.mvnsearch.dotenvx.jwt;
 
+import com.nimbusds.jose.crypto.bc.BouncyCastleProviderSingleton;
 import org.bouncycastle.asn1.sec.SECNamedCurves;
 import org.bouncycastle.asn1.x9.X9ECParameters;
 import org.bouncycastle.jce.ECNamedCurveTable;
@@ -18,7 +19,9 @@ import java.security.interfaces.ECPublicKey;
 
 public class Secp256k1KeyParser {
     static {
-        Security.addProvider(new BouncyCastleProvider());
+        if (Security.getProvider(BouncyCastleProvider.PROVIDER_NAME) == null) {
+            Security.addProvider(BouncyCastleProviderSingleton.getInstance());
+        }
     }
 
     /**
