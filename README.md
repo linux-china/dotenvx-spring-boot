@@ -1,7 +1,7 @@
 dotenvx-spring-boot
 =======================
 
-**[Dotenvx](https://dotenvx.com)** integration for Spring Boot 3.x to load encrypted items from `application.properties`
+**[Dotenvx](https://dotenvx.com)** integration for Spring Boot 3.x/4.x to load encrypted items from `application.properties`
 or `application.yml`.
 
 # Get Started
