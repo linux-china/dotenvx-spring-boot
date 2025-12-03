@@ -20,8 +20,12 @@ public class DotenvxEncryptorImpl implements DotenvxEncryptor {
 
     public DotenvxEncryptorImpl(@Nullable String publicKeyHex, @Nullable String privateKeyHex, HashMap<String, String> profileKeyPairs) {
         this.publicKeyHex = publicKeyHex;
-        this.privateKeyHex = privateKeyHex;
         this.profileKeyPairs = profileKeyPairs;
+        if (privateKeyHex != null && privateKeyHex.contains("{")) {
+            this.privateKeyHex = privateKeyHex.substring(0, privateKeyHex.indexOf("{"));
+        } else {
+            this.privateKeyHex = privateKeyHex;
+        }
     }
 
     /**
