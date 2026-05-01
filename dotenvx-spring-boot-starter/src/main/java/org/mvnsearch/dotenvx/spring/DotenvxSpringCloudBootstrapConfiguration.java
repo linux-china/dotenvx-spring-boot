@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Import;
  * Bootstrap configuration applicable only in spring-cloud environments. Can
  * be explicitly turned-off by <code>dotenvx.encryptor.bootstrap=false</code>
  * configuration (in bootstrap.properties or as a command line argument) in that case
- * Dotenvx will be auto-configured as usual.
+ * Dotenvx will be autoconfigured as usual.
  *
  * @author Fahim Farook
  */
