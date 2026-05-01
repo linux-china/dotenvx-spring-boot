@@ -31,7 +31,7 @@ public class Secp256k1Signer {
     }
 
     /**
-     * verify signature with  with SHA256withECDSA
+     * verify signature with SHA256withECDSA
      *
      * @param data           data
      * @param signatureBytes signature bytes
